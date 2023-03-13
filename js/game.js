@@ -33,8 +33,11 @@ class Game{
     player2.addImage("player2", player_img);
     players=[player1,player2];
 
-        }
+    obstacleGroup = new Group();
     
+        console.log(frameCount)
+       
+        }
     play(){
         
                 form.hide();
@@ -73,12 +76,12 @@ class Game{
                  }
                 
                 if(player.score>=5){
+                    gameState = 2; 
                     player.rank += 1;
                     Player.updatePlayerAtEnd(player.rank);
                     player.update();
                     this.showRank();
-                 gameState = 2; 
-
+                    
                 }
                  
 
@@ -109,6 +112,11 @@ class Game{
                      }
                      fruitGroup.add(fruits);
                      
+                     
+                 }
+                 if(frameCount % 40 === 0){
+                    this.addObstacles()
+                    //call the addObstacles()
                  }
                  
                   if (player.index !== null) {
@@ -118,50 +126,45 @@ class Game{
                               player.score =player.score+1;
                               player.update();
                               
+
                           }
+                  
                           
-                        }
+                      }
+
+                      if(obstacleGroup.isTouching(players)){
+                       //write a code to assign the value of gameState to End
+                       gameState=2
+                      }
                   }
-                
+                }
+                showRank() {
+                    alert("Awesome !! You finished the game! You rank is :" +player.rank)
+                  }
 
-         
-         
-        
-                
+                  gameOver() {
+                    textSize(40)
+                    fill("white")
+                    text("GAME OVER",displayWidth/2-400,displayHeight/2-200)
+                    }
+    
+    end(){
+       console.log("Game Ended");
+       console.log(player.rank)
+       this.gameOver();
     }
-    showRank() {
-        swal({
-            title: `Awesome!${"\n"}Rank${"\n"}${player.rank}`,
-            text: "You reached the finish line successfully",
-            imageUrl:
-              "https://raw.githubusercontent.com/vishalgaddam873/p5-multiplayer-car-race-game/master/assets/cup.png",
-            imageSize: "100x100",
-            confirmButtonText: "Ok"
-          });
-        }
-            
 
 
-       
-
-        gameOver() {
-        //     fill the white color
-        push()
-        textSize(50);
-       fill("white");
-        text("Game Over",400,300);
-        //  print the gameover message
-        
-        pop()
-        }
-            
-
-
-
-
-            end(){
-               console.log("Game Ended");
-               console.log(player.rank)
-               this.gameOver();
-            }
-        }
+    addObstacles()
+    {       
+            var x, y;
+            //write a code to create an obstacle at random x position.
+            x = random(0,width-100) 
+            y = 0
+            var obstacle = createSprite(x, y);
+            obstacle.addImage("obstacle", obstacleImage);
+            obstacle.velocityY = 4;
+            obstacle.scale = 0.15;
+            obstacleGroup.add(obstacle);
+    }
+}

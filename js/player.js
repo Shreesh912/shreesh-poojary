@@ -5,7 +5,7 @@ class Player {
         this.name = null;
         this.score =0;
         
-        this.rank = 0 ;
+        this.rank = null ;
     }
 
     getCount() {
